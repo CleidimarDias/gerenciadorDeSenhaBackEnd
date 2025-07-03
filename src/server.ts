@@ -1,11 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
 //import express, { urlencoded } from "express";
 import express from "express";
 
 import cors from "cors";
 import { mainRouter } from "./routers/main";
 import http from "http";
-import dotenv from "dotenv";
-dotenv.config();
 
 import { Server } from "socket.io";
 
