@@ -1,7 +1,11 @@
-import express, { urlencoded } from "express";
+//import express, { urlencoded } from "express";
+import express from "express";
+
 import cors from "cors";
 import { mainRouter } from "./routers/main";
 import http from "http";
+import dotenv from "dotenv";
+dotenv.config();
 
 import { Server } from "socket.io";
 
@@ -15,7 +19,8 @@ const io = new Server(httpServer, {
 export { io };
 
 app.use(cors());
-app.use(urlencoded({ extended: true }));
+//app.use(urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // Parse JSON bodies (as sent by API clients)
 
 app.use(mainRouter);
