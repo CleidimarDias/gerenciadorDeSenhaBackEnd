@@ -32,7 +32,7 @@ export const createCidadao: RequestHandler = async (req, res) => {
   });
 
   if (!newCidadao) {
-    res.status(500).json({ error: "Erro ao criar usuário" });
+    res.status(500).json({ error: "Erro ao criar Cidadão" });
     return;
   }
   res.status(201).json(newCidadao);
