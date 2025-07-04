@@ -202,7 +202,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Sistemas\\Prefeitura\\GerenciadorSenha\\back-end\\src\\generated\\prisma",
+      "value": "C:\\Sistemas\\Prefeitura\\Gerenciador-de-Senha-back-end\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -213,10 +213,14 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Sistemas\\Prefeitura\\GerenciadorSenha\\back-end\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Sistemas\\Prefeitura\\Gerenciador-de-Senha-back-end\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -230,16 +234,17 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://GerenciaSenha_owner:npg_evHBftO6wg7l@ep-dark-silence-a8q4k417-pooler.eastus2.azure.neon.tech/GerenciaSenha?sslmode=require&channel_binding=require"
+        "value": null
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Reparticao {\n  id        String    @id @default(uuid())\n  name      String\n  slug      String\n  servicos  Servico[]\n  usuarios  Usuario[]\n  guiches   Guiche[]\n  cidadaos  Cidadao[]\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n}\n\nmodel Guiche {\n  id           String     @id @default(uuid())\n  name         String\n  reparticaoId String\n  senha        Senha[]\n  reparticao   Reparticao @relation(fields: [reparticaoId], references: [id])\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n}\n\nmodel Usuario {\n  id           String     @id @default(uuid())\n  role         Role       @default(USUARIO)\n  name         String\n  cpf          String     @unique\n  password     String\n  senha        Senha[]\n  reparticaoId String\n  reparticao   Reparticao @relation(fields: [reparticaoId], references: [id])\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n}\n\nmodel Cidadao {\n  id           String     @id @default(uuid())\n  name         String\n  cpf          String     @unique\n  reparticaoId String\n  reparticao   Reparticao @relation(fields: [reparticaoId], references: [id])\n  senha        Senha[]\n  prioridade   Boolean    @default(false)\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n}\n\nmodel Servico {\n  id           String               @id @default(uuid())\n  name         String\n  slug         String\n  senha        Senha[]\n  contador     ContadorPrioridade[]\n  createdAt    DateTime             @default(now())\n  updatedAt    DateTime             @updatedAt\n  reparticaoId String\n  reparticao   Reparticao           @relation(fields: [reparticaoId], references: [id])\n}\n\nmodel Senha {\n  id          Int     @id @default(autoincrement())\n  senha       String?\n  numeroOrdem Int     @default(1)\n\n  status    SenhaStatus @default(PENDENTE)\n  guicheId  String?\n  guiche    Guiche?     @relation(fields: [guicheId], references: [id])\n  usuarioId String?\n  usuario   Usuario?    @relation(fields: [usuarioId], references: [id])\n  servicoId String\n  servico   Servico     @relation(fields: [servicoId], references: [id])\n  cidadaoId String\n  cidadao   Cidadao     @relation(fields: [cidadaoId], references: [id])\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel ContadorPrioridade {\n  id         Int      @id @default(autoincrement())\n  servicoId  String   @unique\n  quantidade Int      @default(0)\n  updatedAt  DateTime @updatedAt\n  servico    Servico  @relation(fields: [servicoId], references: [id])\n}\n\nenum SenhaStatus {\n  PENDENTE\n  ATENDIDA\n  EM_ATENDIMENTO\n  CANCELADA\n}\n\n// enum Prioridades {\n//   NAO_PRIORITARIO\n//   PRIORITARIO\n//   IDOSO_ACIMA_DE_80_ANOS\n// }\n\nenum Role {\n  ADMIN\n  USUARIO\n}\n",
-  "inlineSchemaHash": "c918d122878e758965156dd62d630c95bf93b4d7792941d44cb834adebf61557",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Reparticao {\n  id        String    @id @default(uuid())\n  name      String\n  slug      String\n  servicos  Servico[]\n  usuarios  Usuario[]\n  guiches   Guiche[]\n  cidadaos  Cidadao[]\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n}\n\nmodel Guiche {\n  id           String     @id @default(uuid())\n  name         String\n  reparticaoId String\n  senha        Senha[]\n  reparticao   Reparticao @relation(fields: [reparticaoId], references: [id])\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n}\n\nmodel Usuario {\n  id           String     @id @default(uuid())\n  role         Role       @default(USUARIO)\n  name         String\n  cpf          String     @unique\n  password     String\n  senha        Senha[]\n  reparticaoId String\n  reparticao   Reparticao @relation(fields: [reparticaoId], references: [id])\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n}\n\nmodel Cidadao {\n  id           String     @id @default(uuid())\n  name         String\n  cpf          String     @unique\n  reparticaoId String\n  reparticao   Reparticao @relation(fields: [reparticaoId], references: [id])\n  senha        Senha[]\n  prioridade   Boolean    @default(false)\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n}\n\nmodel Servico {\n  id           String               @id @default(uuid())\n  name         String\n  slug         String\n  senha        Senha[]\n  contador     ContadorPrioridade[]\n  createdAt    DateTime             @default(now())\n  updatedAt    DateTime             @updatedAt\n  reparticaoId String\n  reparticao   Reparticao           @relation(fields: [reparticaoId], references: [id])\n}\n\nmodel Senha {\n  id          Int     @id @default(autoincrement())\n  senha       String?\n  numeroOrdem Int     @default(1)\n\n  status    SenhaStatus @default(PENDENTE)\n  guicheId  String?\n  guiche    Guiche?     @relation(fields: [guicheId], references: [id])\n  usuarioId String?\n  usuario   Usuario?    @relation(fields: [usuarioId], references: [id])\n  servicoId String\n  servico   Servico     @relation(fields: [servicoId], references: [id])\n  cidadaoId String\n  cidadao   Cidadao     @relation(fields: [cidadaoId], references: [id])\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel ContadorPrioridade {\n  id         Int      @id @default(autoincrement())\n  servicoId  String   @unique\n  quantidade Int      @default(0)\n  updatedAt  DateTime @updatedAt\n  servico    Servico  @relation(fields: [servicoId], references: [id])\n}\n\nenum SenhaStatus {\n  PENDENTE\n  ATENDIDA\n  EM_ATENDIMENTO\n  CANCELADA\n}\n\n// enum Prioridades {\n//   NAO_PRIORITARIO\n//   PRIORITARIO\n//   IDOSO_ACIMA_DE_80_ANOS\n// }\n\nenum Role {\n  ADMIN\n  USUARIO\n}\n",
+  "inlineSchemaHash": "f12c5aa4c304199b4821c138b3c52311f2828e10a34d1797ca3a786195114c41",
   "copyEngine": true
 }
 
@@ -280,6 +285,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
