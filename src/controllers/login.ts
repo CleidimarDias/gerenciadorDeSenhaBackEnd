@@ -4,8 +4,16 @@ import * as user from "../services/usuario";
 import JWT from "jsonwebtoken";
 
 export const login: RequestHandler = async (req, res) => {
+  const cpfRegexComFormatacao = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+  const removerPontosTracosRegex = /[.-]/g;
   const loginSchema = z.object({
-    cpf: z.string().min(1).max(255),
+    // cpf: z.string().min(1).max(255),
+    cpf: z
+      .string()
+      .regex(cpfRegexComFormatacao, {
+        message: "CPF inválido (formato esperado: XXX.XXX.XXX-XX)",
+      })
+      .transform((valor) => valor.replace(removerPontosTracosRegex, "")),
     password: z.string().min(6).max(255),
   });
 
