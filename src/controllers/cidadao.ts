@@ -9,7 +9,7 @@ export const createCidadao: RequestHandler = async (req, res) => {
 
   const cidadaoSchema = z.object({
     name: z.string().min(1).max(255),
-    cpf: z.string().min(11).max(11),
+    cpf: z.string(),
     prioridade: z.boolean().default(false),
   });
 
