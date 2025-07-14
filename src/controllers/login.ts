@@ -5,7 +5,7 @@ import JWT from "jsonwebtoken";
 
 export const login: RequestHandler = async (req, res) => {
   const loginSchema = z.object({
-    cpf: z.string().min(1).max(255),
+    cpf: z.string(),
     password: z.string().min(6).max(255),
   });
 
