@@ -5,7 +5,7 @@ import * as reparticao from "../services/reparticao";
 export const createReparticao: RequestHandler = async (req, res) => {
   const ReparticaoSchema = z.object({
     name: z.string().min(1).max(255),
-    slug: z.string(),
+    slug: z.string().min(1),
   });
 
   const body = ReparticaoSchema.safeParse(req.body);
