@@ -14,6 +14,7 @@ import {
 } from "../controllers/servico";
 import {
   chamarProximaSenha,
+  chamarProximaSenhaId,
   createSenha,
   getAllPendingSenhas,
   getAllSenhas,
@@ -61,11 +62,16 @@ mainRouter.get(
   chamarProximaSenha
 );
 
+mainRouter.get(
+  "/senha/chamarProximaSenha/senhaId/:senhaId",
+  chamarProximaSenhaId
+);
+
 mainRouter.get("/senha/servicoId/:servicoId/", getAllPendingSenhas);
 mainRouter.get("/senha/todasAsSenhas/servicoId/:servicoId", getAllSenhas);
 
 mainRouter.post("/user/getUserByCpfAndPassword", getUserByCpfAndPassword);
 
-mainRouter.post("/login", login);
+mainRouter.post("/login", login); //Não precisa fazer no 360
 
-mainRouter.get("/auth/me", auth, me);
+mainRouter.get("/auth/me", auth, me); // naõ precisa fazer no 360

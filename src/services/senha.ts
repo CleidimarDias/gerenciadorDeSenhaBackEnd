@@ -221,6 +221,19 @@ export const chamarProximaSenha = async (data: ProximaSenhaData) => {
   }
 };
 
+export const chamarProximaSenhaPorId = async (id: number) => {
+  try {
+    const senhaChamada = await prisma.senha.findFirst({
+      where: { id },
+    });
+
+    return senhaChamada;
+  } catch (error) {
+    console.error("Erro ao chamar senha", error);
+    return null;
+  }
+};
+
 //UPDATE SENHA
 
 interface UpdateSenhaData {
