@@ -63,17 +63,17 @@ export const chamarProximaSenha: RequestHandler = async (req, res) => {
 //chama próxima senha por id
 export const chamarProximaSenhaId: RequestHandler = async (req, res) => {
   const SenhaPorIdSchemaParams = z.object({
-    id: z.string(),
+    senhaId: z.string(),
   });
 
   const param = SenhaPorIdSchemaParams.safeParse(req.params);
   if (!param.success) {
-    res.status(400).json({ error: "erro ao passar body" });
+    res.status(400).json({ error: "erro ao passar param" });
     return;
   }
 
   const senhaChamada = await senha.chamarProximaSenhaPorId(
-    parseInt(param.data.id)
+    parseInt(param.data.senhaId)
   );
 
   if (!senhaChamada) {
