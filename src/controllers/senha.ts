@@ -72,18 +72,18 @@ export const chamarProximaSenhaId: RequestHandler = async (req, res) => {
     return;
   }
 
-  const senhaChamada = await senha.chamarProximaSenhaPorId(
+  const senhaChamadaPorId = await senha.chamarProximaSenhaPorId(
     parseInt(param.data.senhaId)
   );
 
-  if (!senhaChamada) {
+  if (!senhaChamadaPorId) {
     res.status(500).json({ error: "Erro ao chamar a próxima senha" });
     return;
   }
 
-  io.emit("Senha-Chamada", senhaChamada);
+  io.emit("Senha-Chamada-por-id", senhaChamadaPorId);
 
-  res.status(200).json(senhaChamada);
+  res.status(200).json(senhaChamadaPorId);
 };
 
 // UPDATE SENHA
