@@ -18,6 +18,7 @@ import {
   createSenha,
   getAllPendingSenhas,
   getAllSenhas,
+  updateStatusSenha,
 } from "../controllers/senha";
 import { createCidadao } from "../controllers/cidadao";
 import { createGuiche, getAllGuiches } from "../controllers/guiche";
@@ -69,6 +70,7 @@ mainRouter.get(
 
 mainRouter.get("/senha/servicoId/:servicoId/", getAllPendingSenhas);
 mainRouter.get("/senha/todasAsSenhas/servicoId/:servicoId", getAllSenhas);
+mainRouter.put("/senha/senhaId/:senhaId", updateStatusSenha);
 
 mainRouter.post("/user/getUserByCpfAndPassword", getUserByCpfAndPassword);
 

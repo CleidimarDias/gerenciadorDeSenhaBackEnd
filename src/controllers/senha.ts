@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import z from "zod";
+import z, { coerce } from "zod";
 import * as senha from "../services/senha";
 import { io } from "../server";
 // import { Prioridades, SenhaStatus } from "../generated/prisma";
@@ -81,7 +81,16 @@ export const chamarProximaSenhaId: RequestHandler = async (req, res) => {
     return;
   }
 
-  io.emit("Senha-Chamada-por-id", senhaChamadaPorId);
+  io.emit("Senha-Chamada-por-id", {
+    cidadao: {
+      name: senhaChamadaPorId.cidadao.name,
+      prioridade: senhaChamadaPorId.cidadao.prioridade,
+    },
+    guiche: {
+      name: senhaChamadaPorId.guiche?.name,
+    },
+  });
+  // io.emit("Senha-Chamada", senhaChamadaPorId);
 
   res.status(200).json(senhaChamadaPorId);
 };
@@ -123,6 +132,29 @@ export const updateSenha: RequestHandler = async (req, res) => {
     return;
   }
   res.status(201).json(newSenha);
+};
+
+// ----------------------------UpDate Status para finalizado-----------------------------------------------
+export const updateStatusSenha: RequestHandler = async (req, res) => {
+  const paramsSchema = z.object({
+    senhaId: coerce.number(),
+  });
+
+  const idParams = paramsSchema.safeParse(req.params);
+
+  if (!idParams.success) {
+    res.status(400).json({ error: "erro ao passar os params" });
+    return;
+  }
+
+  const updatedSenha = await senha.updateStatusSenha(idParams.data.senhaId);
+
+  if (!updatedSenha) {
+    res.status(500).json({ error: "Erro ao atualizar senha" });
+    return;
+  }
+
+  res.status(201).json(updatedSenha);
 };
 
 // Mostrar todas as senhas com status de pendente---------------------------

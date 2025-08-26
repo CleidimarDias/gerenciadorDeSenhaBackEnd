@@ -225,6 +225,10 @@ export const chamarProximaSenhaPorId = async (id: number) => {
   try {
     const senhaChamada = await prisma.senha.findFirst({
       where: { id },
+      include: {
+        cidadao: true,
+        guiche: true,
+      },
     });
 
     return senhaChamada;
@@ -259,6 +263,26 @@ export const updateSenha = async (data: UpdateSenhaData) => {
     return senhaAtualizada;
   } catch (error) {
     console.error("Error fetching updateSenha senha:", error);
+    return false;
+  }
+};
+
+// ----------------------------update Status da senha para Finalizada-------------------------------
+
+export const updateStatusSenha = async (senhaId: number) => {
+  if (!senhaId) {
+    throw new Error("Senha Id is required");
+  }
+  try {
+    const statusSenhaAtualizado = await prisma.senha.update({
+      where: { id: senhaId },
+      data: {
+        status: "ATENDIDA",
+      },
+    });
+    return statusSenhaAtualizado;
+  } catch (error) {
+    console.error("Erro ao atualizar senha", error);
     return false;
   }
 };

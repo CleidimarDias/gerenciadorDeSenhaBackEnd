@@ -13,7 +13,7 @@ const app = express();
 const httpServer = http.createServer(app);
 
 const io = new Server(httpServer, {
-  cors: { origin: "*" },
+  cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
 export { io };
